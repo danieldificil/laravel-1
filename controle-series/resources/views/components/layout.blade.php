@@ -1,19 +1,29 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+
+    <!-- Scripts -->
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <title>$title</title>
 </head>
 <body>
-<h1>{{ $title }}</h1>
-{{ $slot }}
+<div class="container">
+    <h1>{{ $title }}</h1>
+    {{ $slot }}
+</div>
 </body>
 </html>
-
-
 {{--Para criar componentes HTML, o Laravel utiliza um sistema semelhante ao Vue.js, uma estrutura--}}
 {{--de front-end JavaScript amplamente utilizada para criar interfaces de usuário interativas e dinâmicas.--}}
 {{--Esse sistema, conhecido como "Blade," é a engine de template do Laravel e oferece uma maneira eficaz--}}

@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Auth::routes();
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,3 +22,7 @@ Route::get('/', function () {
 Route::get('/series', [\App\Http\Controllers\SeriesController::class, 'index']);
 
 Route::get('/series/create', [\App\Http\Controllers\SeriesController::class, 'create']);
+
+Route::post('/series/save', [\App\Http\Controllers\SeriesController::class, 'store']);
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

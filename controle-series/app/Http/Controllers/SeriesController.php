@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
+
+
 class SeriesController extends Controller
 {
     public function index(Request $request) {
@@ -11,11 +14,8 @@ class SeriesController extends Controller
 //        para redirecionar a outra página: return redirect('https://google.com');
 //        existem vários métodos para request, ex: return $request -> get('id');
 
-        $series = [
-            'Punisher',
-            'Lost',
-            'Grey\'s Anatomy'
-        ];
+        $series = DB::select('SELECT name FROM series;');
+        dd($series);
 
 //        return view('serie-list', [
 //            'series' => $series
@@ -27,6 +27,17 @@ class SeriesController extends Controller
 
     public function create() {
         return view('series.create');
+    }
+
+    public function store(Request $request) {
+
+        $serieName = $request->input('name');
+
+        if (DB::insert('INSERT INTO series (name) VALUES (?)', [$serieName])) {
+            return "OK";
+        } else {
+            return "Deu erro";
+        }
     }
 }
 
