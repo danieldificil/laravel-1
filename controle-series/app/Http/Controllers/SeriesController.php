@@ -46,10 +46,13 @@ class SeriesController extends Controller
 //            return "Deu erro";
 //        }
 
-        $serieName = $request->input('name');
-        $serie = new Serie();
-        $serie->name = $serieName;
-        $serie->save();
+//        jeito verboso
+//        $serieName = $request->name;
+//        $serie = new Serie();
+//        $serie->name = $serieName;
+//        $serie->save();
+
+        Serie::create($request->all());
         return redirect('/series');
     }
 }
