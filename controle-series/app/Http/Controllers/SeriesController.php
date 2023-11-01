@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Serie;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
@@ -14,8 +15,15 @@ class SeriesController extends Controller
 //        para redirecionar a outra página: return redirect('https://google.com');
 //        existem vários métodos para request, ex: return $request -> get('id');
 
-        $series = DB::select('SELECT name FROM series;');
-        dd($series);
+//        $series = DB::select('SELECT name FROM series;'); esse é o jeito sem orm para requisições no DB
+
+//        busca simples de lista:
+//        $series = Serie::all();
+
+
+//        query builder:
+          $series = Serie::query()->orderBy('name')->get();
+//        uma maneira de debugar o código com renderização na view:  dd($series);
 
 //        return view('serie-list', [
 //            'series' => $series
@@ -31,13 +39,18 @@ class SeriesController extends Controller
 
     public function store(Request $request) {
 
-        $serieName = $request->input('name');
+        //        jeito com query de sql
+//        if (DB::insert('INSERT INTO series (name) VALUES (?)', [$serieName])) {
+//            return redirect('/series');
+//        } else {
+//            return "Deu erro";
+//        }
 
-        if (DB::insert('INSERT INTO series (name) VALUES (?)', [$serieName])) {
-            return "OK";
-        } else {
-            return "Deu erro";
-        }
+        $serieName = $request->input('name');
+        $serie = new Serie();
+        $serie->name = $serieName;
+        $serie->save();
+        return redirect('/series');
     }
 }
 
