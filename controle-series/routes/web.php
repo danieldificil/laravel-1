@@ -42,6 +42,4 @@ Auth::routes();
 //Route::resource('/series', \App\Http\Controllers\SeriesController::class);
 
 Route::resource('/series', \App\Http\Controllers\SeriesController::class)
-->only(['index', 'create', 'store']);
-
-Route::post('series/destroy/{serie}', [\App\Http\Controllers\SeriesController::class, 'destroy'])->name('series.destroy');
+->only(['index', 'create', 'store', 'destroy', 'edit']);

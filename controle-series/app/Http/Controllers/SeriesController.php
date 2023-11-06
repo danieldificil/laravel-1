@@ -23,6 +23,11 @@ class SeriesController extends Controller
 
 //        query builder:
           $series = Serie::query()->orderBy('name')->get();
+          $successfullyMessage = $request->session()->get('message.success');
+//          comm put:
+//          $request->session()->forget('message.success');
+//        com flash não precisa tratar a destruição do div
+
 //        uma maneira de debugar o código com renderização na view:  dd($series);
 
 //        return view('serie-list', [
@@ -30,7 +35,7 @@ class SeriesController extends Controller
 //        ]);
 //        ou
 //        return view('serie-list', compact('series'));
-        return view('series.index')->with('series', $series);
+        return view('series.index')->with('series', $series)->with('successfullyMessage', $successfullyMessage);
     }
 
     public function create() {
@@ -52,14 +57,51 @@ class SeriesController extends Controller
 //        $serie->name = $serieName;
 //        $serie->save();
 
-        Serie::create($request->all());
-        return to_route('series.index');
+        $serie = Serie::create($request->all());
+        return to_route('series.index')
+            ->with('message.success', "The serie '{$serie->name}' created successfully");
     }
 
-    public function destroy(Request $request) {
+//    Jeito 1
+//    public function destroy(Request $request) {
+//
+//    Serie::destroy($request->series);
+//    $request->session()->flash('message.success', "The serie removed successfully");
+//
+//    return to_route('series.index');
+//    }
 
-    return dd($request->serie);
+//    Jeito 2
+//    public function destroy(Serie $series, Request $request) {
+//
+//    $series->delete();
+//    Serie::destroy($request->series);
+//    $request->session()->flash('message.success', "The serie '{$series->name}' removed successfully");
+//
+//    return to_route('series.index');
+//    }
+//    jeito 3 :
+    public function destroy(Serie $series, Request $request) {
+
+        $series->delete();
+        Serie::destroy($request->series);
+        return to_route('series.index')
+            ->with('message.success', "The serie '{$series->name}' removed successfully");
     }
+
+    public function edit(Serie $series, Request $request) {
+
+        return view('series.edit')->with('serie', $series);
+    }
+
+    public function update(Serie $series, Request $request) {
+        $series->update();
+        Serie::updated($request->series);
+        return to_route('series.index')
+            ->with('message.success', "The serie '{$series->name}' updated successfully");
+    }
+
+
 }
 
 
